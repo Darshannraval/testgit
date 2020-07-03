@@ -1,0 +1,42 @@
+version: 0.2
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+
+phases:
+  install:
+    runtime-versions:
+         nodejs: 10
+    commands:
+      - npm install
+      # - command
+  #pre_build:
+    #commands:
+      # - command
+      # - command
+  build:
+    run-as: root
+    commands:
+      - npm run build
+      # - command
+  post_build:
+    commands:
+      - aws s3 cp --recursive  --acl public-read ./build s3://myreactapp1111/ --exclude ".git/*"
+      - aws cloudfront create-invalidation  --distribution-id EANC4PPCT9CO9 --paths /*
+      # - command
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
+
+
